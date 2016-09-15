@@ -1,0 +1,46 @@
+<html>
+<head>
+  <title>Weather Stuff</title>
+  <style type="text/css">
+    body{
+      background-color: magenta;
+    }
+  </style>
+  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js" > </script>
+  <script type="text/javascript">
+    function generateOutput(){
+      //var city= $("#cityName").val();
+      //var state = $("stateName").val();+
+      var requestData = 'http://api.wunderground.com/api/c6dc8e785d943109/conditions/q/'+$('#stateName').val()+'/'+$('#cityName').val()+'.json'; 
+      var resultElement = $('#outputData');
+       $.ajax({
+        url:requestData,
+        //data:{
+        //  q:city&APPID
+        //},
+        dataType: "jsonp",
+          method: 'get',
+           success: function (data) {
+            resultElement.html('Weather: ' + data.current_observation.weather+'<br/>'+'Temperature: '+data.current_observation.temp_f);
+            var weather = data.current_observation.weather;
+            console.log(weather);
+            if(weather=="Rain"){
+              alert("You should bring an umbrella");
+            }
+            if (weather=="Overcast"){
+              alert("Go outside and enjoy the weather!");
+            }
+        }
+  
+      });
+    }
+  </script>
+</head>
+<body>
+  <input id='cityName'> City Name </input>
+  <input id = 'stateName'> State Name</input>
+  <div id='outputData'></div>
+  <button onclick= 'generateOutput()'>What's the Weather?</button>
+  <h1><img src="weather.png" align="middle"></h1>
+</body>
+</html>
